@@ -46,7 +46,7 @@ class ExecActivity : AppCompatActivity(), Removable {
                 KEY_LAST_NAME + " TEXT, " +
                 KEY_AGE + " TEXT, " +
                 KEY_POSITION + " TEXT" +")")
-         println("---- database ${db.databaseName} ")
+         println("---- database ${db.showTables().toString()} ")
         binding = ActivityExecBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarMain)

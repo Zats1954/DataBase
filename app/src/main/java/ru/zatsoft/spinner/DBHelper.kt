@@ -31,7 +31,8 @@ SQLiteOpenHelper(context, DATABASE_NAME,factory, DATABASE_VERSION){
     }
 
     fun showTables(){
-
+        val db = this.readableDatabase
+          db.rawQuery("SELECT name FROM sqlite_master WHERE type = 'table';", null)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
