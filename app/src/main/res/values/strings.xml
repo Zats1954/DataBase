@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DataBase</string>
+    <string name="title_text">База данных</string>
+    <string name="exit">Выход</string>
+    <string name="name">Имя</string>
+    <string name="text_age">Возраст</string>
+    <string name="last_name">Фамилия</string>
+    <string name="position">Должность</string>
+    <string name="add">Добавить</string>
+    <string name="info">Вывести все</string>
+    <string name="delete">Удалить данные</string>
+    <string name="start">Начать</string>
+</resources>
