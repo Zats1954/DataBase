@@ -117,6 +117,7 @@ class ExecActivity : AppCompatActivity(), Removable {
         binding.btnClear.setOnClickListener {
             db.removeAll()
             list.clear()
+            listAdapter.notifyDataSetChanged()
 
         }
     }
