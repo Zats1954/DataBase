@@ -11,18 +11,12 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import ru.zatsoft.spinner.DBHelper.Companion.KEY_AGE
-import ru.zatsoft.spinner.DBHelper.Companion.KEY_ID
-import ru.zatsoft.spinner.DBHelper.Companion.KEY_LAST_NAME
-import ru.zatsoft.spinner.DBHelper.Companion.KEY_NAME
-import ru.zatsoft.spinner.DBHelper.Companion.KEY_POSITION
-import ru.zatsoft.spinner.DBHelper.Companion.TABLE_NAME
 import ru.zatsoft.spinner.databinding.ActivityExecBinding
 
 
 class ExecActivity : AppCompatActivity(), Removable {
 
-
+    private val db = DBHelper(this, null)
 
     private val role = mutableListOf(
         "Должность",
@@ -39,14 +33,6 @@ class ExecActivity : AppCompatActivity(), Removable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val db = DBHelper(this, null)
-        val query = ("CREATE TABLE " + TABLE_NAME + "(" +
-        KEY_ID + " INTEGER PRIMARY KEY, " +
-                KEY_NAME + " TEXT, " +
-                KEY_LAST_NAME + " TEXT, " +
-                KEY_AGE + " TEXT, " +
-                KEY_POSITION + " TEXT" +")")
-         println("---- database ${db.showTables().toString()} ")
         binding = ActivityExecBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarMain)
@@ -62,7 +48,6 @@ class ExecActivity : AppCompatActivity(), Removable {
                 listAdapter.notifyDataSetChanged()
             }
 
-
         val spinnerAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -73,7 +58,6 @@ class ExecActivity : AppCompatActivity(), Removable {
         var selectedItem = " "
         val itemSelected: OnItemSelectedListener =
             object : OnItemSelectedListener {
-
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -87,7 +71,7 @@ class ExecActivity : AppCompatActivity(), Removable {
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    selectedItem = ""
+                    selectedItem = " "
                 }
             }
         binding.spinner.onItemSelectedListener = itemSelected
@@ -97,7 +81,10 @@ class ExecActivity : AppCompatActivity(), Removable {
             val lastName = binding.edLastName.text.toString()
             val age = binding.edAge.text.toString()
             val position = selectedItem
-            if (name.equals("") || lastName.equals("") || age.toIntOrNull() == null || position.equals(" ")) {
+            if (name.equals("") || lastName.equals("") || age.toIntOrNull() == null || position.equals(
+                    ""
+                )
+            ) {
                 Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_LONG).show()
             } else {
                 db.addName(name, lastName, age, position)
@@ -119,7 +106,6 @@ class ExecActivity : AppCompatActivity(), Removable {
             while (cursor!!.moveToNext()) {
                 addPerson(cursor)
             }
-            println("------- list.size ${list.size}")
             cursor.close()
             listAdapter.notifyDataSetChanged()
             inputKeyboard.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
@@ -165,7 +151,8 @@ class ExecActivity : AppCompatActivity(), Removable {
     }
 
     override fun remove(person: Person) {
-        listAdapter.remove(person)
+        db.removePerson(person)
+        list.removeAt(list.indexOf(person))
         listAdapter.notifyDataSetChanged()
     }
 

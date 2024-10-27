@@ -19,20 +19,14 @@ SQLiteOpenHelper(context, DATABASE_NAME,factory, DATABASE_VERSION){
         val KEY_POSITION = "position"
     }
 
-    override fun onCreate(db: SQLiteDatabase?) {
-        val query = ("CREATE TABLE " + TABLE_NAME + " (" +
+    override fun onCreate(db: SQLiteDatabase) {
+        val queiry = ("CREATE TABLE " + TABLE_NAME + "(" +
                 KEY_ID + " INTEGER PRIMARY KEY, " +
-//                KEY_NAME + " TEXT, " +
-//                KEY_LAST_NAME + " TEXT, " +
-//                KEY_AGE + " TEXT, " +
+                KEY_NAME + " TEXT, " +
+                KEY_LAST_NAME + " TEXT, " +
+                KEY_AGE + " TEXT, " +
                 KEY_POSITION + " TEXT" +")")
-        println("---- database open ${db?.isOpen} ")
-        db?.execSQL(query)
-    }
-
-    fun showTables(){
-        val db = this.readableDatabase
-          db.rawQuery("SELECT name FROM sqlite_master WHERE type = 'table';", null)
+        db.execSQL(queiry)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -60,8 +54,9 @@ SQLiteOpenHelper(context, DATABASE_NAME,factory, DATABASE_VERSION){
         db.delete(TABLE_NAME, null, null)
     }
 
-    fun clear() {
+    fun removePerson(person: Person){
         val db = this.writableDatabase
-        db.delete(TABLE_NAME, null, null)
+        db.delete(TABLE_NAME, "$KEY_LAST_NAME = ?",arrayOf(person.lastName))
     }
+
 }
