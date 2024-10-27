@@ -6,8 +6,8 @@
     <string name="text_age">Возраст</string>
     <string name="last_name">Фамилия</string>
     <string name="position">Должность</string>
-    <string name="add">Добавить</string>
-    <string name="info">Вывести все</string>
+    <string name="add">Сохранить данные</string>
+    <string name="info">Получить данные</string>
     <string name="delete">Удалить данные</string>
-    <string name="start">Начать</string>
+    <string name="start">Начать работу</string>
 </resources>
