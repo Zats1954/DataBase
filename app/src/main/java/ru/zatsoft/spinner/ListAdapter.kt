@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class ListAdapter(private val context: Context, private val dataList: MutableList<Person> )
-    : ArrayAdapter<Person>(context, R.layout.list_item, dataList)
+class ListAdapter(private val context: Context, private val dataList: MutableList<Product> )
+    : ArrayAdapter<Product>(context, R.layout.list_item, dataList)
 {
 
     override fun getCount(): Int {
       return dataList.size
     }
 
-    override fun getItem(position: Int): Person{
-        return dataList[position]
+    override fun getItem(position: Int): Product{
+         return dataList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -27,14 +27,13 @@ class ListAdapter(private val context: Context, private val dataList: MutableLis
         val view = v?: LayoutInflater.from(context).inflate(R.layout.list_item,parent,false)
         val data = getItem(position)
         val tvName = view.findViewById<TextView>(R.id.tvName)
-        val tvLastName = view.findViewById<TextView>(R.id.tvLastName)
-        val tvAge = view.findViewById<TextView>(R.id.tvAge)
-        val tvPosition = view.findViewById<TextView>(R.id.tvPosition)
+        val tvWeight = view.findViewById<TextView>(R.id.tvWeight)
+        val tvPrice = view.findViewById<TextView>(R.id.tvPrice)
 
         tvName.text = data.name
-        tvLastName.text = data.lastName
-        tvAge.text = data.age.toString()
-        tvPosition.text = data.position
+        tvWeight.text = data.weight.toString()
+        tvPrice.text = data.price.toString()
+
         return view
     }
 }

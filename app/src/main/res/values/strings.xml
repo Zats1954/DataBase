@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">DataBase</string>
-    <string name="title_text">База данных</string>
+    <string name="title_text">Потребительская корзина</string>
     <string name="exit">Выход</string>
-    <string name="name">Имя</string>
-    <string name="text_age">Возраст</string>
-    <string name="last_name">Фамилия</string>
-    <string name="position">Должность</string>
+    <string name="name">Название продукта</string>
+    <string name="text_price">Цена</string>
+    <string name="text_weight">Вес</string>
     <string name="add">Сохранить данные</string>
     <string name="info">Получить данные</string>
     <string name="delete">Удалить данные</string>

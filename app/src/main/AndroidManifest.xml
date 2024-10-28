@@ -13,9 +13,6 @@
         android:theme="@style/Theme.Spinner"
         tools:targetApi="31">
         <activity
-            android:name=".ExecActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

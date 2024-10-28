@@ -9,23 +9,21 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 SQLiteOpenHelper(context, DATABASE_NAME,factory, DATABASE_VERSION){
     companion object{
-        private val DATABASE_NAME = "PERSON_DATABASE"
+        private val DATABASE_NAME = "PRODUCT_DATABASE"
         private val DATABASE_VERSION = 1
-        val TABLE_NAME = "person_table"
+        val TABLE_NAME = "product_table"
         val KEY_ID = "id"
         val KEY_NAME = "name"
-        val KEY_LAST_NAME = "lastName"
-        val KEY_AGE = "age"
-        val KEY_POSITION = "position"
+        val KEY_WEIGHT = "weight"
+        val KEY_PRICE = "price"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         val queiry = ("CREATE TABLE " + TABLE_NAME + "(" +
                 KEY_ID + " INTEGER PRIMARY KEY, " +
                 KEY_NAME + " TEXT, " +
-                KEY_LAST_NAME + " TEXT, " +
-                KEY_AGE + " TEXT, " +
-                KEY_POSITION + " TEXT" +")")
+                KEY_WEIGHT + " INTEGER, " +
+                KEY_PRICE + " INTEGER " + ")")
         db.execSQL(queiry)
     }
 
@@ -33,12 +31,11 @@ SQLiteOpenHelper(context, DATABASE_NAME,factory, DATABASE_VERSION){
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
     }
 
-    fun addName(name: String, lastName: String,  age: String,  position: String){
+    fun addName(name: String, weight: Int, price: Int){
         val values = ContentValues()
         values.put(KEY_NAME, name)
-        values.put(KEY_LAST_NAME,lastName)
-        values.put(KEY_AGE,age)
-        values.put(KEY_POSITION, position)
+        values.put(KEY_WEIGHT,weight)
+        values.put(KEY_PRICE,price)
         val db = this.writableDatabase
         db.insert(TABLE_NAME, null, values)
         db.close()
@@ -54,9 +51,9 @@ SQLiteOpenHelper(context, DATABASE_NAME,factory, DATABASE_VERSION){
         db.delete(TABLE_NAME, null, null)
     }
 
-    fun removePerson(person: Person){
+    fun removePerson(product: Product){
         val db = this.writableDatabase
-        db.delete(TABLE_NAME, "$KEY_LAST_NAME = ?",arrayOf(person.lastName))
+        db.delete(TABLE_NAME, "$KEY_NAME = ?", arrayOf(product.name))
     }
 
 }
