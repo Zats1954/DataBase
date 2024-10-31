@@ -12,8 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/blue"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tbLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,71 +27,102 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <TableLayout
+        android:id="@+id/tbLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMain">
-
-        <EditText
-            android:id="@+id/edName"
-            android:layout_width="@dimen/text_width"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
-            android:hint="@string/name" />
-
-        <EditText
-            android:id="@+id/ed_weight"
-            android:layout_width="@dimen/text_width"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
-            android:hint="@string/text_weight" />
-
-        <EditText
-            android:id="@+id/ed_price"
-            android:layout_width="@dimen/text_width"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
-            android:hint="@string/text_price" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/llButtons"
+        android:layout_margin="@dimen/margin">
+        <TableRow >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="@string/name"
+                android:textSize="@dimen/text_size"
+                />
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_marginStart="@dimen/margin"
+                android:minWidth="20sp"
+                />
+        </TableRow>
+        <TableRow >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="@string/text_weight"
+                android:textSize="@dimen/text_size"
+                />
+            <EditText
+                android:id="@+id/etWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_marginStart="@dimen/margin"
+                android:minWidth="20sp"
+                />
+        </TableRow>
+        <TableRow >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="@string/text_price"
+                android:textSize="@dimen/text_size"
+                />
+            <EditText
+                android:id="@+id/etPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_marginStart="@dimen/margin"
+                android:minWidth="20sp"
+                />
+        </TableRow>
+    </TableLayout>
 
     <LinearLayout
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:baselineAligned="false"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/tbLayout">
 
         <Button
-            android:id="@+id/btnAdd"
+            android:id="@+id/btnSave"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/list_margin"
             android:layout_weight="1"
-            android:text="@string/add"
-            android:layout_margin="@dimen/margin"/>
+            android:text="@string/save" />
 
         <Button
-            android:id="@+id/btnInfo"
+            android:id="@+id/btnUpdate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/info"
+            android:layout_margin="@dimen/list_margin"
             android:layout_weight="1"
-            android:layout_margin="@dimen/margin"/>
+            android:text="@string/upgrade"
+            android:visibility="gone" />
 
         <Button
-            android:id="@+id/btnClear"
+            android:id="@+id/btnDelete"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/list_margin"
+            android:layout_weight="1"
             android:text="@string/delete"
-            android:layout_weight="1"
-            android:layout_margin="@dimen/margin"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -97,11 +130,11 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:choiceMode="singleChoice"
+        android:divider="@color/black"
+        android:dividerHeight="1dp"
+        android:listSelector="@color/blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llButtons"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintTop_toBottomOf="@+id/llButtons"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,8 +5,9 @@
     <string name="name">Название продукта</string>
     <string name="text_price">Цена</string>
     <string name="text_weight">Вес</string>
-    <string name="add">Сохранить данные</string>
-    <string name="info">Получить данные</string>
-    <string name="delete">Удалить данные</string>
+    <string name="save">Сохранить</string>
+    <string name="upgrade">Изменить</string>
+    <string name="delete">Удалить</string>
     <string name="start">Начать работу</string>
+    <string name="cancel">Отменить</string>
 </resources>

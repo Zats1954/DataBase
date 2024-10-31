@@ -1,17 +1,23 @@
 package ru.zatsoft.spinner
 
+import android.app.Activity
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ru.zatsoft.spinner.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), Removable {
+class MainActivity : AppCompatActivity() {
 
+    private val REQUEST_CODE = 200
+    private var selectedId = -1L
+    private lateinit var selectedProduct: Product
     private val db = DBHelper(this, null)
     private lateinit var binding: ActivityMainBinding
     private var list = mutableListOf<Product>()
@@ -29,53 +35,64 @@ class MainActivity : AppCompatActivity(), Removable {
         binding.listView.adapter = listAdapter
         binding.listView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
-                val selectedPerson = listAdapter.getItem(position)
-                remove(selectedPerson)
+                selectedProduct = listAdapter.getItem(position)
+                selectedId = selectedProduct.id
+                binding.btnDelete.visibility = View.VISIBLE
+                binding.btnUpdate.visibility = View.VISIBLE
                 listAdapter.notifyDataSetChanged()
             }
+//  Заполняем список list из БД, обновляем адаптер
+        readDB()
 
-        binding.btnAdd.setOnClickListener {
-            val name = binding.edName.text.toString()
-            var weight: Int
-            var price: Int
-            if (name.equals("") )
-             {
+        binding.btnSave.setOnClickListener {
+            val name = binding.etName.text.toString()
+            val weight: Int
+            val price: Int
+            if (name.equals("")) {
                 Toast.makeText(this, "Нет наименования продукта", Toast.LENGTH_LONG).show()
             } else {
-                try{
-                weight = binding.edWeight.text.toString().toInt()
-                price = binding.edPrice.text.toString().toInt()
-                db.addName(name, weight, price)
-                Toast.makeText(
-                    this,
-                    "$name $weight $price  добавлены в базу данных",
-                    Toast.LENGTH_LONG
-                ).show()
-                clearFields()}
-                catch(e: NumberFormatException){
+                try {
+                    weight = binding.etWeight.text.toString().toInt()
+                    price = binding.etPrice.text.toString().toInt()
+                    db.addName(name, weight, price)
+                    Toast.makeText(
+                        this,
+                        "$name $weight $price  добавлены в базу данных",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    clearFields()
+                } catch (e: NumberFormatException) {
                     Toast.makeText(
                         this,
                         "вес и цена  должны быть числами ",
                         Toast.LENGTH_LONG
                     ).show()
                 }
+//  Заполняем список list из БД, обновляем адаптер
                 readDB()
-
+                inputKeyboard.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
             }
         }
 
-        binding.btnInfo.setOnClickListener {
+        binding.btnUpdate.setOnClickListener {
+            val intent = Intent(this, UpdateActivity::class.java)
+            intent.putExtra("product", selectedProduct)
+            startActivityForResult(intent, REQUEST_CODE)
+//  Заполняем список list из БД, обновляем адаптер
             readDB()
             inputKeyboard.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
 //   Очистка полей
             clearFields()
         }
 
-        binding.btnClear.setOnClickListener {
-            db.removeAll()
-            list.clear()
-            listAdapter.notifyDataSetChanged()
-
+        binding.btnDelete.setOnClickListener {
+            if (db.removeProduct(selectedId)) {
+                readDB()
+                listAdapter = ListAdapter(this, list)
+                binding.listView.adapter = listAdapter
+                binding.btnDelete.visibility = View.GONE
+                binding.btnUpdate.visibility = View.GONE
+            }
         }
     }
 
@@ -95,6 +112,7 @@ class MainActivity : AppCompatActivity(), Removable {
     private fun addProduct(cursor: Cursor) {
         list.add(
             Product(
+                cursor.getLong(cursor.getColumnIndexOrThrow(DBHelper.KEY_ID)),
                 cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.KEY_NAME)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.KEY_WEIGHT)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.KEY_PRICE))
@@ -103,9 +121,9 @@ class MainActivity : AppCompatActivity(), Removable {
     }
 
     private fun clearFields() {
-        binding.edName.text.clear()
-        binding.edWeight.text.clear()
-        binding.edPrice.text.clear()
+        binding.etName.text.clear()
+        binding.etWeight.text.clear()
+        binding.etPrice.text.clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -119,10 +137,18 @@ class MainActivity : AppCompatActivity(), Removable {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun remove(product: Product) {
-        db.removePerson(product)
-        list.removeAt(list.indexOf(product))
-        listAdapter.notifyDataSetChanged()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                val result = data?.extras?.getParcelable("product1") as Product?
+                db.update(result)
+                readDB()
+                listAdapter = ListAdapter(this, list)
+                binding.listView.adapter = listAdapter
+                binding.btnDelete.visibility = View.GONE
+                binding.btnUpdate.visibility = View.GONE
+            }
+        }
     }
-
 }

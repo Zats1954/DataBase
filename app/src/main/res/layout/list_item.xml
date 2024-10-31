@@ -9,7 +9,7 @@
             android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
+            android:layout_margin="@dimen/list_margin"
             android:text="@string/name"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"/>
@@ -18,7 +18,7 @@
             android:id="@+id/tvWeight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
+            android:layout_margin="@dimen/list_margin"
             android:text="@string/text_weight"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"/>
@@ -27,7 +27,7 @@
             android:id="@+id/tvPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
+            android:layout_margin="@dimen/list_margin"
             android:text="@string/text_price"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"/>

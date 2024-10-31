@@ -29,11 +29,9 @@ class ListAdapter(private val context: Context, private val dataList: MutableLis
         val tvName = view.findViewById<TextView>(R.id.tvName)
         val tvWeight = view.findViewById<TextView>(R.id.tvWeight)
         val tvPrice = view.findViewById<TextView>(R.id.tvPrice)
-
         tvName.text = data.name
         tvWeight.text = data.weight.toString()
         tvPrice.text = data.price.toString()
-
         return view
     }
 }
